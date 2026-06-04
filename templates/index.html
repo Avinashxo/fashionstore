@@ -105,12 +105,15 @@
 <!-- Category Pills -->
 <div class="category-strip">
   <a href="{{ url_for('products') }}" class="cat-pill">✨ All</a>
-  <a href="{{ url_for('products', category='men', sub='tshirts') }}" class="cat-pill">👕 T-Shirts</a>
-  <a href="{{ url_for('products', category='men', sub='jeans') }}" class="cat-pill">👖 Jeans</a>
-  <a href="{{ url_for('products', category='men', sub='jackets') }}" class="cat-pill">🧥 Jackets</a>
-  <a href="{{ url_for('products', category='women', sub='dresses') }}" class="cat-pill">👗 Dresses</a>
+  <a href="{{ url_for('products', category='men', sub='tshirts') }}" class="cat-pill">👕 Men's T-Shirts</a>
+  <a href="{{ url_for('products', category='men', sub='jeans') }}" class="cat-pill">👖 Men's Jeans</a>
+  <a href="{{ url_for('products', category='men', sub='jackets') }}" class="cat-pill">🧥 Men's Jackets</a>
+  <a href="{{ url_for('products', category='women', sub='dresses') }}" class="cat-pill">👗 Women's Dresses</a>
   <a href="{{ url_for('products', category='women', sub='kurtis') }}" class="cat-pill">🌸 Kurtis</a>
-  <a href="{{ url_for('products', category='women', sub='tops') }}" class="cat-pill">👙 Tops</a>
+  <a href="{{ url_for('products', category='women', sub='tops') }}" class="cat-pill">👙 Women's Tops</a>
+  <a href="{{ url_for('products', category='kids') }}" class="cat-pill">🧒 Kids</a>
+  <a href="{{ url_for('products', category='kids', sub='dresses') }}" class="cat-pill">👧 Girls Dresses</a>
+  <a href="{{ url_for('products', category='kids', sub='tshirts') }}" class="cat-pill">👦 Boys T-Shirts</a>
   <a href="{{ url_for('products', sort='discount') }}" class="cat-pill">🏷️ Sale</a>
 </div>
 
@@ -152,6 +155,47 @@
       </div>
     </div>
     {% endfor %}
+  </div>
+</section>
+
+<!-- Kids Section -->
+<section class="section" style="background:var(--cream);">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">👶 Kids' Corner</h2>
+      <p class="section-subtitle">Fun, comfy & colorful styles for little ones</p>
+    </div>
+    <a href="{{ url_for('products', category='kids') }}" class="view-all">View All →</a>
+  </div>
+  <div class="product-grid">
+    {% for product in products if product.category == 'kids' %}{% if loop.index <= 4 %}
+    <div class="product-card">
+      <a href="{{ url_for('product_detail', pid=product.id) }}" style="text-decoration:none; color:inherit;">
+        <div class="product-img-wrap">
+          <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+          {% if product.badge %}<span class="product-badge">{{ product.badge }}</span>{% endif %}
+        </div>
+      </a>
+      <a href="{{ url_for('toggle_wishlist', pid=product.id) }}" class="wishlist-btn {{ 'active' if product.id in wishlist_ids }}">
+        <i class="{{ 'fas' if product.id in wishlist_ids else 'far' }} fa-heart"></i>
+      </a>
+      <div class="product-info">
+        <div class="product-brand">{{ product.brand }}</div>
+        <a href="{{ url_for('product_detail', pid=product.id) }}" style="text-decoration:none;">
+          <div class="product-name">{{ product.name }}</div>
+        </a>
+        <div class="product-price">
+          <span class="price-current">₹{{ product.price }}</span>
+          <span class="price-original">₹{{ product.original_price }}</span>
+          <span class="price-off">{{ ((product.original_price - product.price) / product.original_price * 100)|int }}% off</span>
+        </div>
+        <div class="product-rating">
+          <span class="stars">⭐ {{ product.rating }}</span>
+          <span class="rating-count">({{ product.reviews }})</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}{% endfor %}
   </div>
 </section>
 

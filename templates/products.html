@@ -44,6 +44,7 @@
       <li><a href="{{ url_for('products', sort=sort) }}" class="{{ 'active' if category == 'all' }}">All Products <span>{{ products|length }}</span></a></li>
       <li><a href="{{ url_for('products', category='men', sort=sort) }}" class="{{ 'active' if category == 'men' }}">Men 👔</a></li>
       <li><a href="{{ url_for('products', category='women', sort=sort) }}" class="{{ 'active' if category == 'women' }}">Women 👗</a></li>
+      <li><a href="{{ url_for('products', category='kids', sort=sort) }}" class="{{ 'active' if category == 'kids' }}">Kids 🧒</a></li>
     </ul>
 
     {% if category == 'men' or category == 'all' %}
@@ -64,7 +65,14 @@
     </ul>
     {% endif %}
 
-    <h3>Quick Filters</h3>
+    {% if category == 'kids' or category == 'all' %}
+    <h3>Kids'</h3>
+    <ul class="filter-list">
+      {% for s, label in [('tshirts','T-Shirts'), ('dresses','Dresses'), ('jeans','Jeans'), ('jackets','Jackets'), ('shorts','Shorts'), ('ethnic','Ethnic Wear'), ('pants','Pants')] %}
+      <li><a href="{{ url_for('products', category='kids', sub=s, sort=sort) }}" class="{{ 'active' if sub == s }}">{{ label }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
     <ul class="filter-list">
       <li><a href="{{ url_for('products', category=category, sort='rating') }}">⭐ Top Rated</a></li>
       <li><a href="{{ url_for('products', category=category, sort='discount') }}">🔥 Best Deals</a></li>
